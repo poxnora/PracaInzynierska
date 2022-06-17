@@ -4,7 +4,7 @@ import pandas as pd
 
 
 import cleantext
-import sentiment
+import Sentiment
 import tweet
 
 

@@ -5,11 +5,11 @@ tweets_list = []
 
 class Scraping:
     #TODO implement query
-    query = ""
+
     def __init__(self,query):
         self.query = query
 
-    def getTweets(self):
+    def get_tweets(self):
 
         for i,tweet in enumerate(sntwitter.TwitterSearchScraper('(PKO OR #PKO OR $PKO) AND -PKOEKSTRAKLASA AND -(PKO Ekstraklasa) AND -#PKOEkstraklasa AND -PKOEKSTRAKLASY AND -(Ekstraklasy) AND -#Ekstraklasy AND -PKOEKSTRAKLASIE AND -(Ekstraklasie) AND -#Ekstraklasie lang:pl -is:retweet').get_items()):
             if i>maxTweets:

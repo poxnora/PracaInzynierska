@@ -1,12 +1,11 @@
 from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 col_list = ['Tweet Id','Datetime','retweetCount','likeCount', 'Text']
 
+
 class Sentiment:
-    doc = ""
 
     def __init__(self,doc):
         self.doc = doc
-
 
     def get_sentiment(self):
         label = []

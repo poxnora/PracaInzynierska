@@ -23,7 +23,8 @@ sentiment.get_sentiment().to_csv('tweets/PKOstcopysentencespol.csv', sep=';', in
 """
 copy_clean = pd.read_csv('tweets/PKOstcopysentencespol.csv', delimiter=';', usecols=col_list)
 calculator = Calculate(copy_clean,5)
-pop = calculator.most_positive()
+plots = Plots()
+plots.popularity_plot(calculator.each_day())
 
 """
 plots = Plots(pop)

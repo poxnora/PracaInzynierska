@@ -1,28 +1,31 @@
 import logging
-
 import pandas as pd
 
-
-import cleantext
-import sentiment
-import tweet
-
+from Calculate import Calculate
+from Plots import Plots
+from Sentiment import Sentiment
 
 logging.basicConfig(format="%(levelname)s - %(asctime)s: %(message)s", datefmt= '%H:%M:%S', level=logging.INFO)
-
-
-
-col_list = ['Tweet Id','Datetime','retweetCount','likeCount', 'Text']
-csv = pd.read_csv('PKOst.csv', delimiter=';', usecols=col_list)
+col_list = ['Tweet Id','Datetime','retweetCount','likeCount', 'Text','Label']
+#TODO implement choosing files
 """
-copy = cleantext.copy(csv)
-cleantext.lemmatization(copy).to_csv('PKOstcopy.csv', sep=';', index=False)
-copy_lem = pd.read_csv('PKOstcopy.csv', delimiter=';', usecols=col_list)
-cleantext.clean_special(copy_lem).to_csv('PKOstcopy.csv', sep=';', index=False)
-copy_lem_special = pd.read_csv('PKOstcopy.csv', delimiter=';', usecols=col_list)
-cleantext.remove_stop_words(copy_lem_special).to_csv('PKOstcopy.csv', sep=';', index=False)
+csv = pd.read_csv('tweets/PKOst.csv', delimiter=';', usecols=col_list)
+copy = prepare_text.copy(csv)
+prepare_text.lemmatization(copy).to_csv('tweets/PKOstcopy.csv', sep=';', index=False)
+copy_lem = pd.read_csv('tweets/PKOstcopy.csv', delimiter=';', usecols=col_list)
+prepare_text.clean_special(copy_lem).to_csv('tweets/PKOstcopy.csv', sep=';', index=False)
+copy_lem_special = pd.read_csv('tweets/PKOstcopy.csv', delimiter=';', usecols=col_list)
+prepare_text.remove_stop_words(copy_lem_special).to_csv('tweets/PKOstcopy.csv', sep=';', index=False)
+copy_clean = pd.read_csv('tweets/PKOstcopy.csv', delimiter=';', usecols=col_list)
+prepare_text.bigrams(copy_clean).to_csv('tweets/PKOstcopysentences.csv', sep=';', index=False)
+sentiment = Sentiment(copy_clean)
+sentiment.get_sentiment().to_csv('tweets/PKOstcopysentencespol.csv', sep=';', index=False)
 """
-copy_clean = pd.read_csv('PKOstcopy.csv', delimiter=';', usecols=col_list)
+copy_clean = pd.read_csv('tweets/PKOstcopysentencespol.csv', delimiter=';', usecols=col_list)
+calculator = Calculate(copy_clean,5)
+pop = calculator.most_positive()
 
-sentiment.bigrams(copy_clean)
-
+"""
+plots = Plots(pop)
+plots.sentiment_plot()
+"""

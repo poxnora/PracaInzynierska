@@ -6,15 +6,14 @@ from gensim.models import Phrases
 from gensim.models.phrases import Phraser
 
 
-# noinspection DuplicatedCode
 class PrepareText:
     # TODO implement for all files
-    nlp = spacy.load("pl_core_news_md")
     col_list = ['Tweet Id', 'Datetime', 'retweetCount', 'likeCount', 'Text']
     pd.options.mode.chained_assignment = None
 
     def __init__(self,doc):
         self.doc = doc
+        self.nlp = spacy.load("pl_core_news_md")
 
     def copy(self):
         self.doc.to_csv('tweets/PKOstcopy.csv', sep=';', index=False)
@@ -24,11 +23,8 @@ class PrepareText:
     def lemmatization(self):
         index = 0
         for line in self.doc['Text']:
-            rep = line
-            for token in self.nlp(str(line)):
-                rep = str(rep).replace(token.text, token.lemma_)
-            self.doc['Text'][index] = rep
-            index += 1
+            line = self.nlp(line)
+            self.doc['Text'][index] = (" ".join([token.lemma_ for token in line]))
         return self.doc
 
     def remove_stop_words(self):
@@ -84,4 +80,10 @@ class PrepareText:
         for line in sentences:
             self.doc['Text'][index] = " ".join(line)
             index += 1
+        return self.doc
+
+    def prepare(self):
+        self.doc = self.clean_special_without_polish()
+        self.doc = self.lemmatization()
+        self.doc = self.remove_stop_words()
         return self.doc
